@@ -1,0 +1,45 @@
+%YAML 1.2 #Simbols of Ariel language
+---
+- type: keyword
+  value: 0
+  set:
+      - if
+      - else
+      - while
+      - return
+      - main
+      - print
+      - number
+      - string
+- type: operator
+  sub:
+      - type: aritmetic
+        value: 1
+        set:
+            - '+'
+            - '-'
+            - '*'
+            - '/'
+      - type: relational
+        value: 3
+        set:
+            - '<'
+            - '>'
+            - '=='
+      - type: assignment
+        value: 4
+        set:
+            - '='
+      - type: grouping
+        value: 5
+        set:
+            - "'"
+            - '('
+            - ')'
+            - '{'
+            - '}'
+      - type: identifiers
+        value: 6
+        set:
+            - '[A-Za-z]+[\w]*'
+...
