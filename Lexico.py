@@ -47,6 +47,6 @@ class Lexico(object):
 
 if __name__ == "__main__":
     x = Lexico()
-    entrada = input("Ingresa un numero \n")
+    entrada = raw_input("Ingresa una cadena \n")
     x.analiza(entrada)
     print(x.getTipo())
