@@ -1,19 +1,22 @@
-﻿import sys
+import sys
 import re
-import Lexic
-from Lexic import *
+import Sintactic
+from Sintactic import *
 
 def main():
   if len(sys.argv)<=1:
-      print 'Usage: python Compiler.py <filename>'
-      return
+    print 'Usage: python Compiler.py <filename>'
+    return
   
   arg = sys.argv[1]
   f = open(arg,'r')
   fr = f.read()
-  Lex = Lexic()
-  for item in re.findall("\s*(\'.*\'|\d+\.\d+|\d+|\w+|.)", fr):
-    print Lex.getTypeName(item)
+ 
+  Sin = Sintactic()
+  #timein = time.time()
+  Sin.init(fr)
+  #timeout = time.time()
+  #print timeout-timein
   return
 
 if __name__ == '__main__':
