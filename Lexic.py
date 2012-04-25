@@ -2,6 +2,18 @@
 
 class Lexic(object):    
   
+  allSymbols = []
+  symbol = ""
+  pos = 0
+  
+  def init(self,fr):
+    for item in re.findall("\s*(\'.*\'|\d+\.\d+|\d+|\w+|.)", fr):
+      self.allSymbols.append(item)
+  
+  def nextSymbol(self):
+    self.symbol = self.allSymbols[self.pos]
+    self.pos += 1
+  
   def getType(self,item):
     keywords = [
       'if','else','return','main','while',
