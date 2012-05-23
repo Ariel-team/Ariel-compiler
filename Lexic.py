@@ -7,7 +7,7 @@ class Lexic(object):
   pos = 0
   
   def __init__(self,fr):
-    for item in re.findall("\s*(\'.*\'|\d+\.\d+|\d+|\w+|.)", fr):
+    for item in re.findall("\s*(\'.*\'|\d+\.\d+|\d+|\w+|==|\+=|<=|>=|.)", fr):
       self.allSymbols.append(item)
   
   def nextSymbol(self):
