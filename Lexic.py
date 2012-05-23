@@ -17,7 +17,8 @@ class Lexic(object):
   def getType(self,item):
     keywords = [
       'if','else','return','main','while',
-      'for','do','int','float','char','string','print']
+      'for','do','print']
+    types = ['int','float','char','string']
     logicals = ['and','or','not']
     relationals = ['>','<','==','>=','<=']
     arithmetics = ['+','-','*','/','+=']
@@ -25,6 +26,8 @@ class Lexic(object):
     #keyword
     if item in keywords:
       return 0
+    if item in types:
+      return 10
     #int
     elif re.search(r'^\d+$',item):
       return 1
@@ -59,5 +62,12 @@ class Lexic(object):
   def getTypeName(self,item):
     typeNames = {0:'keyword',1:'int',2:'float',3:'identifier',4:'string',
     5:'logical operator',6:'relational operator',7:'arithmetic operator',
-    8:'assignment operator',9:'grouping operator',-1:'error'}
+    8:'assignment operator',9:'grouping operator',-1:'error',10:'type'}
     return item + '\t<-\t' + typeNames[self.getType(item)]
+
+if __name__ == '__main__':
+    data = open('test.ari')
+    l = Lexic(data.read())
+    while True:
+        print l.getTypeName(l.symbol)
+        l.nextSymbol()
