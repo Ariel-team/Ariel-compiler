@@ -18,8 +18,8 @@ class Lexic(object):
     keywords = [
       'if','else','return','main','while',
       'for','do','int','float','char','string','print']
-    logicals = ['&&','||','!']
-    relationals = ['>','<','==','!=','>=','<=']
+    logicals = ['and','or','not']
+    relationals = ['>','<','==','>=','<=']
     arithmetics = ['+','-','*','/','+=']
     groupings = ['[',']',';','(',')','{','}']
     #keyword
