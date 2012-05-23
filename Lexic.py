@@ -26,8 +26,12 @@ class Lexic(object):
     #keyword
     if item in keywords:
       return 0
+    #types
     if item in types:
       return 10
+    #logicalOp
+    elif item in logicals:
+      return 5
     #int
     elif re.search(r'^\d+$',item):
       return 1
@@ -40,9 +44,6 @@ class Lexic(object):
     #string
     elif re.search(r'^\'.*\'$',item):
       return 4
-    #logicalOp
-    elif item in logicals:
-      return 5
     #relationalOp
     elif item in relationals:
       return 6
