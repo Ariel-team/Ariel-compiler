@@ -9,11 +9,16 @@ class Lexic(object):
 
     for item in re.findall("\s*(\'.*\'|\d+\.\d+|\d+|\w+|==|\+=|<=|>=|.)", fr):
       self.allSymbols.append(item)
-  
+
+
   def nextSymbol(self):
-    self.symbol = self.allSymbols[self.pos]
-    self.pos += 1
-  
+    try:
+      self.symbol = self.allSymbols[self.pos]
+      self.pos += 1
+    except:
+      self.symbol = ''
+
+
   def getType(self,item):
     keywords = [
       'if','else','return','main','while',
@@ -59,12 +64,14 @@ class Lexic(object):
     #error  
     else:
       return -1
-      
+
+
   def getTypeName(self,item):
     typeNames = {0:'keyword',1:'int',2:'float',3:'identifier',4:'string',
     5:'logical operator',6:'relational operator',7:'arithmetic operator',
     8:'assignment operator',9:'grouping operator',-1:'error',10:'type'}
     return item + '\t<-\t' + typeNames[self.getType(item)]
+
 
 if __name__ == '__main__':
     data = open('test.ari')
