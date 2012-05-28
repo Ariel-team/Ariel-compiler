@@ -2,11 +2,11 @@
 
 class Lexic(object):    
   
-  allSymbols = []
-  symbol = ""
-  pos = 0
-  
   def __init__(self,fr):
+    self.allSymbols = []
+    self.symbol = ""
+    self.pos = 0
+
     for item in re.findall("\s*(\'.*\'|\d+\.\d+|\d+|\w+|==|\+=|<=|>=|.)", fr):
       self.allSymbols.append(item)
   
