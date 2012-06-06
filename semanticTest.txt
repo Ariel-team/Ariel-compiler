@@ -1,0 +1,68 @@
+Analizador semantico
+====================
+
+Clase Semantic
+--------------
+
+Preparamos el entorno
+
+    >>> from semantic import Semantic
+    >>> from arbol2 import *
+    >>> semantic = Semantic()
+
+Ejecutamos las pruebas
+
+    >>> semantic.analiza(arbol0())
+    Accept
+    >>> semantic.tablasimbol
+    {'a': 'int'}
+    
+    >>> semantic.analiza(arbol1())
+    Accept
+    
+    >>> semantic.analiza(arbol2())
+    Accept
+    
+    >>> semantic.analiza(arbol3())
+    Accept
+    
+    >>> semantic.analiza(arbol4())
+    Accept
+    
+    >>> semantic.analiza(arbol5())
+    Accept
+    
+    >>> semantic.analiza(arbol6())
+    Accept
+    
+    >>> semantic.analiza(arbol7())
+    Accept
+    
+    >>> semantic.analiza(arbol8())
+    Accept
+    
+    >>> semantic.analiza(arbol9())
+    Accept
+    
+    >>> semantic.analiza(arbol10())
+    Accept
+    
+    >>> semantic.analiza(arbol0e())
+    Traceback (most recent call last):
+        ...
+    TypeError: Incompatibilidad de tipos
+        
+    >>> semantic.analiza(arbol1e())
+    Traceback (most recent call last):
+        ...
+    NameError: Variable no declarada
+        
+    >>> semantic.analiza(arbol2e())
+    Traceback (most recent call last):
+        ...
+    TypeError: Incompatibilidad de tipos
+        
+    >>> semantic.analiza(arbol3e())
+    Traceback (most recent call last):
+        ...
+    TypeError: Incompatibilidad de tipos
