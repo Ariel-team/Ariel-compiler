@@ -1,19 +1,42 @@
 #!/usr/bin/python
 import re
 from Lexic import Lexic
-
+from arbol import *
+class Dummy(object):
+    x = 0
+    
 class Nodo(object):
     simbolo = ''
     sig = ''
 
 class Syntactico(Nodo):
-
+    nt = ['A','B','C','D','E','F','G','K','L','M','N','O','P','Q','R','S','T','U','V','W']
     def __init__(self,cadena):
         self.lexico = Lexic(cadena)
         self.lexico.nextSymbol()
-    
+        self.nodos = []
+
+    def nodo(self):
+        entrada = self.lexico.symbol
+        if entrada == 'else':
+            self.nodos.append(Dummy())
+        elif not entrada in self.nt:
+            typ = self.lexico.getType(entrada)
+            if typ == 10:
+                self.nodos.append(Tipo(entrada))
+            elif typ == 1:
+                self.nodos.append(Entero(entrada))
+            elif typ == 2:
+                self.nodos.append(Real(entrada))
+            elif typ == 3:
+                self.nodos.append(ID(entrada))
+
+
+    def arbol(self):
+        pass
+
+
     def obtenColumna(self,entrada):
-        nt = ['A','B','C','D','E','F','G','K','L','M','N','O','P','Q','R','S','T','U','V','W']
         try:
             i={'':'\n','or':'a','and':'b','==':'q','<=':'l','>=':'g','if':'x','else':'y','while':'z'}
             entrada = i[entrada]
@@ -21,7 +44,7 @@ class Syntactico(Nodo):
         except:
             sim = False
         if not sim:
-            if not entrada in nt:
+            if not entrada in self.nt:
                 typ = self.lexico.getType(entrada)
                 if typ == 10:
                     entrada = 't'
@@ -34,6 +57,7 @@ class Syntactico(Nodo):
                 return index
         print 'Error'
         return 'error'
+
 
     def analiza(self):
         pila = [0]
@@ -49,8 +73,75 @@ class Syntactico(Nodo):
                 if accion[0] == 's':
                     pila.append(self.lexico.symbol)
                     pila.append(int(accion[1:]))
+                    self.nodo()
                     self.lexico.nextSymbol()
                 elif accion[0] == 'r':
+                    print 'A',accion, self.nodos
+                    if accion[1:] in ['53','9']:
+                        ide = self.nodos.pop()
+                        tipo = self.nodos.pop()
+                        t = Variables(tipo,ide)
+                        self.nodos.append(t)
+                    elif accion[1:] in ['11','10','1'] and len(self.nodos) > 1:
+                        t = self.nodos.pop()
+                        objetivo = self.nodos[-1]
+                        pendiente = 1
+                        while pendiente:
+                            if vars(objetivo).has_key('sig'):
+                                if not (objetivo.sig):
+                                    objetivo.sig=t
+                                    pendiente = 0
+                                else:
+                                    objetivo = objetivo.sig
+                            else:
+                                self.nodos.append(t)
+                                break
+                    elif accion[1:] in ['30']:
+                        der = self.nodos.pop()
+                        izq = self.nodos.pop()
+                        t = Suma(izq,der)
+                        self.nodos.append(t)
+                    elif accion[1:] in ['34']:
+                        der = self.nodos.pop()
+                        izq = self.nodos.pop()
+                        t = Mult(izq,der)
+                        self.nodos.append(t)
+                    elif accion[1:] in ['17']:
+                        exp = self.nodos.pop()
+                        ide = self.nodos.pop()
+                        t = Asignacion(ide,exp)
+                        self.nodos.append(t)
+                    elif accion[1:] in ['23','25','26','27','28']:
+                        simbolo = {'23':'==','25':'<','26':'<=','27':'>','28':'>='}
+                        der = self.nodos.pop()
+                        izq = self.nodos.pop()
+                        t = Relacional(simbolo[accion[1:]],der,izq)
+                        self.nodos.append(t)
+                    elif accion[1:] in ['37']:
+                        ide = self.nodos.pop()
+                        t = Signo(ide)
+                        self.nodos.append(t)
+                    elif accion[1:] in ['19']:
+                        der = self.nodos.pop()
+                        izq = self.nodos.pop()
+                        t = Disyuncion(izq,der)
+                        self.nodos.append(t)
+                    elif accion[1:] in ['21']:
+                        der = self.nodos.pop()
+                        izq = self.nodos.pop()
+                        t = Conjuncion(izq,der)
+                        self.nodos.append(t)
+                    elif accion[1:] in ['8']:
+                        pre = self.nodos.pop()
+                        exp = self.nodos.pop()
+                        if type(exp) == Dummy:
+                            otro = pre
+                            pre = self.nodos.pop()
+                            exp = self.nodos.pop()
+                            t = Si(exp,pre,otro)
+                        else:
+                            t = Si(exp,pre,None)
+                        self.nodos.append(t)
                     regla = self.reglas[int(accion[1:])]
                     izquierda = regla.keys()[0]
                     tamano = len(regla[izquierda]) * 2
@@ -58,9 +149,11 @@ class Syntactico(Nodo):
                         pila.pop()
                     pila.append(izquierda)
                     pila.append(self.matriz[pila[-2]][self.obtenColumna(pila[-1])])
+                    print 'B',accion, self.nodos
                 else:
                     print 'Accept'
                     break
+
 
     indice = ['\(','\)','\*','\+',',',  '-','/',';','<','=','>','a','b', '!','g', 'i','l', 'n','q', 't', 'x','y', 'z','\{','\}','\n','A','B','C','D','E','F','G','H','J','K','L','M','N','O','P','Q','R','S','T','U','V','W']
 
@@ -225,6 +318,7 @@ if __name__ == '__main__':
             break
         syntactic = Syntactico(entrada)
         syntactic.analiza()
-
+        syntactic.nodos[0].muestra()
+        print 'Nodos:', syntactic.nodos
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
 
