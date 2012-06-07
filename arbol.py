@@ -1,17 +1,19 @@
 class Single:
-    conten=""
+    conten=''
     count = 0
     def etiqueta(self):
-        count += 1
-        return 'E'+str(count)+'\n'
+        self.count += 1
+        return 'E'+str(self.count)
 
 class Nodo(object):
   
-    simbolo = ""
+    simbolo = ''
     codigo = Single()
     relacionales={'<':'jl','>':'jg','<=':'jge','>=':'jle','==':'je','!=':'jne'}
     
     def __init__(self):
+        self.codigo.conten = ''
+        self.codigo.count = 0
         self.sig = None
      
 
@@ -22,7 +24,7 @@ class Tipo(Nodo):
         self.sig = None
     
     def muestra(self):
-        print "<Tipo>" + self.simbolo
+        print '<Tipo>' + self.simbolo
         if(self.sig):
             self.sig.muestra()
 
@@ -30,12 +32,13 @@ class Tipo(Nodo):
 class Expresion(Nodo):
     
     def __init__(self, izq=None, der=None):
+        super(Expresion,self).__init__()
         self.izq = izq
         self.der = der
         self.sig = None
     
     def muestra(self, op):
-        print "<"+op+">" + self.simbolo
+        print '<'+op+'>' + self.simbolo
         self.izq.muestra()
         self.der.muestra()
 
@@ -43,11 +46,12 @@ class Expresion(Nodo):
 class ID(Expresion):
     
     def __init__(self, simbolo, sig=None):
+        super(ID,self).__init__()
         self.simbolo = simbolo
         self.sig = sig
 
     def muestra(self):
-        print "<Identificador>" + self.simbolo
+        print '<Identificador>' + self.simbolo
         if(self.sig):
             self.sig.muestra()
                                 
@@ -58,11 +62,12 @@ class ID(Expresion):
 class Entero(Expresion):
     
     def __init__(self, simbolo):
+        super(Entero,self).__init__()
         self.simbolo = simbolo
         self.sig = None
     
     def muestra(self):
-        print "<Entero>" + self.simbolo
+        print '<Entero>' + self.simbolo
         if(self.sig):
             self.sig.muestra()
                                 
@@ -73,11 +78,12 @@ class Entero(Expresion):
 class Real(Expresion):
     
     def __init__(self, simbolo):
+        super(Real,self).__init__()
         self.simbolo = simbolo
         self.sig = None
     
     def muestra(self):
-        print "<Real>" + self.simbolo
+        print '<Real>' + self.simbolo
         if(self.sig):
             self.sig.muestra()
                     
@@ -88,11 +94,12 @@ class Real(Expresion):
 class Signo(Expresion):
     
     def __init__(self, izq):
+        super(Signo,self).__init__()
         self.izq = izq
         self.der = None
     
     def muestra(self):
-        print "<Signo>" + self.simbolo
+        print '<Signo>' + self.simbolo
         self.izq.muestra()
                 
     def genera(self):
@@ -103,11 +110,12 @@ class Signo(Expresion):
 class Suma(Expresion):
     
     def __init__(self, izq, der):
+        super(Suma,self).__init__()
         self.izq = izq
         self.der = der
     
     def muestra(self):
-        Expresion.muestra(self,"Suma")
+        Expresion.muestra(self,'Suma')
     
     def genera(self):
         self.izq.genera()
@@ -117,11 +125,12 @@ class Suma(Expresion):
 class Mult(Expresion):
     
     def __init__(self, izq, der):
+        super(Mult,self).__init__()
         self.izq = izq
         self.der = der
     
     def muestra(self):
-        Expresion.muestra(self,"Mult")
+        Expresion.muestra(self,'Mult')
         
     def genera(self):
         self.izq.genera()
@@ -131,11 +140,12 @@ class Mult(Expresion):
 class Conjuncion(Expresion):
     
     def __init__(self, izq, der):
+        super(Conjuncion,self).__init__()
         self.izq = izq
         self.der = der
     
     def muestra(self):
-        Expresion.muestra(self,"Conj")
+        Expresion.muestra(self,'Conj')
         
     def genera(self):
         self.izq.genera()
@@ -146,11 +156,12 @@ class Conjuncion(Expresion):
 class Disyuncion(Expresion):
     
     def __init__(self, izq, der):
+        super(Disyuncion,self).__init__()
         self.izq = izq
         self.der = der
     
     def muestra(self):
-        Expresion.muestra(self,"Disy")
+        Expresion.muestra(self,'Disy')
                 
     def genera(self):
         self.izq.genera()
@@ -161,32 +172,34 @@ class Disyuncion(Expresion):
 class Relacional(Expresion):
     
     def __init__(self, simbolo, izq, der):
+        super(Relacional,self).__init__()
         self.simbolo = simbolo
         self.izq = izq
         self.der = der
     
     def muestra(self):
-        Expresion.muestra(self,"Relacional")
+        Expresion.muestra(self,'Relacional')
         
     def genera(self):
-        self.izq.genera
-        self.der.genera
+        self.izq.genera()
+        self.der.genera()
         eti = self.codigo.etiqueta()
         etf = self.codigo.etiqueta()
         self.codigo.conten += 'pop ebx\npop eax\ncmp ebx eax\n'
-        self.codigo.conten += relacionales[self.simbolo] + ' ' + eti + '\n'
+        self.codigo.conten += self.relacionales[self.simbolo] + ' ' + eti + '\n'
         self.codigo.conten += 'push 1\njmp '+ etf + '\n' 
         self.codigo.conten += eti + ': push 0\n' + etf + ':\n'        
 
 class Variables(Nodo):
     
     def __init__(self, tipo, ide, sig=None):
+        super(Variables,self).__init__()
         self.tipo = tipo
         self.ide = ide
         self.sig = sig
         
     def muestra(self):
-        print "<Variables>"
+        print '<Variables>'
         self.tipo.muestra()
         self.ide.muestra()
         if(self.sig):
@@ -200,12 +213,13 @@ class Variables(Nodo):
 class Asignacion(Nodo):
     
     def __init__(self, ide, exp, sig=None):
+        super(Asignacion,self).__init__()
         self.ide = ide
         self.exp = exp
         self.sig = sig
         
     def muestra(self):
-        print "<Asignacion>"
+        print '<Asignacion>'
         self.ide.muestra()
         self.exp.muestra()
         if(self.sig):
@@ -221,13 +235,14 @@ class Asignacion(Nodo):
 class Si(Nodo):
 
     def __init__(self, exp, bloque, otro, sig=None):
+        super(Si,self).__init__()
         self.exp = exp
         self.bloque = bloque
         self.otro = otro
         self.sig = sig
     
     def muestra(self):
-        print "<Si>"
+        print '<Si>'
         self.exp.muestra()
         self.bloque.muestra()
         if(self.otro):
@@ -236,9 +251,10 @@ class Si(Nodo):
             self.sig.muestra()
         
     def genera(self):
-        ete = self,codigo,etiqueta()
-        etf = self,codigo,etiqueta()
-        self.codigo.conten += 'pop eax\n cmp eax,0\n jne ' + ete + '\n'
+        self.exp.genera()
+        ete = self.codigo.etiqueta()
+        etf = self.codigo.etiqueta()
+        self.codigo.conten += 'pop eax\ncmp eax,0\njne ' + ete + '\n'
         self.bloque.genera()
         self.codigo.conten += 'jmp ' + etf + '\n' + ete + ':\n'
         if (self.otro):
@@ -252,6 +268,7 @@ class Si(Nodo):
 class Para(Nodo):
     
     def __init__(self, asignacion, exp, incremento, bloque, sig=None):
+        super(Para,self).__init__()
         self.asignacion = asignacion
         self.exp = exp
         self.incremento = incremento
@@ -259,7 +276,7 @@ class Para(Nodo):
         self.sig = sig
     
     def muestra(self):
-        print "<Para>"
+        print '<Para>'
         self.asignacion.muestra()
         self.exp.muestra()
         self.incremento.muestra()
@@ -288,7 +305,7 @@ class Imprime(Nodo):
         self.sig = sig
         
     def muestra(self):
-        print "<Imprime>"
+        print '<Imprime>'
         self.exp.muestra()
         if(self.sig):
             self.sig.muestra()
@@ -300,56 +317,56 @@ class Imprime(Nodo):
             self.sig.genera()
 
 def arbol0():
-    return Variables(Tipo("int"), ID("a"))
+    return Variables(Tipo('int'), ID('a'))
 
 def arbol1():
-    return Variables(Tipo("int"), ID("a", ID("b", ID("c"))))
+    return Variables(Tipo('int'), ID('a', ID('b', ID('c'))))
 
 def arbol2():
-    return Variables(Tipo("int"), ID("a", ID("b")), Variables(Tipo("int"), ID("c", ID("d")), Asignacion(ID("a"), Entero("3"), Imprime(ID("a")))))
+    return Variables(Tipo('int'), ID('a', ID('b')), Variables(Tipo('int'), ID('c', ID('d')), Asignacion(ID('a'), Entero('3'), Imprime(ID('a')))))
 
 def arbol3():
-    return Variables(Tipo("int"), ID("a", ID("b")), Variables(Tipo("int"), ID("c", ID("d")), Asignacion(ID("c"), Entero("5"), Asignacion(ID("a"), Suma(Entero("3"), ID("c")), Imprime(ID("a"), Imprime(Suma(Entero("2"), Mult(Entero("3"),Signo(Entero("4"))))))))))
+    return Variables(Tipo('int'), ID('a', ID('b')), Variables(Tipo('int'), ID('c', ID('d')), Asignacion(ID('c'), Entero('5'), Asignacion(ID('a'), Suma(Entero('3'), ID('c')), Imprime(ID('a'), Imprime(Suma(Entero('2'), Mult(Entero('3'),Signo(Entero('4'))))))))))
 
 def arbol4():
-    return  Variables(Tipo("int"), ID("a", ID("b")), Variables(Tipo("int"), ID("c", ID("d")), Asignacion(ID("b"), Entero( "2" ) , Asignacion(ID("c"), Entero( "4" ) , Asignacion(ID("d"), Entero( "1" ) , Asignacion(ID("a"), Suma(ID("b"), Mult(ID("c"), ID("d"))), Imprime(ID("a"))))))))
+    return  Variables(Tipo('int'), ID('a', ID('b')), Variables(Tipo('int'), ID('c', ID('d')), Asignacion(ID('b'), Entero( '2' ) , Asignacion(ID('c'), Entero( '4' ) , Asignacion(ID('d'), Entero( '1' ) , Asignacion(ID('a'), Suma(ID('b'), Mult(ID('c'), ID('d'))), Imprime(ID('a'))))))))
 
 def arbol5():
-    return  Variables(Tipo("int"), ID("a", ID("z")), Asignacion(ID("z"), Entero( "0" ) , Asignacion(ID("a"), Entero( "5" ) , Si(Relacional(">", ID("a"), Entero( "2" ) ), Asignacion(ID("z"), Entero( "1" ) ), None, Imprime(ID("z"))))))
+    return  Variables(Tipo('int'), ID('a', ID('z')), Asignacion(ID('z'), Entero( '0' ) , Asignacion(ID('a'), Entero( '5' ) , Si(Relacional('>', ID('a'), Entero( '2' ) ), Asignacion(ID('z'), Entero( '1' ) ), None, Imprime(ID('z'))))))
 
 def arbol6():
-    return  Variables(Tipo("int"), ID("a", ID("z")), Asignacion(ID("a"), Entero( "5" ) , Si(Relacional(">", ID("a"), Entero( "2" ) ), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z")))));
+    return  Variables(Tipo('int'), ID('a', ID('z')), Asignacion(ID('a'), Entero( '5' ) , Si(Relacional('>', ID('a'), Entero( '2' ) ), Asignacion(ID('z'), Entero( '1' ) ), Asignacion(ID('z'), Entero( '0' ) ), Imprime(ID('z')))));
 
 def arbol7():
-    return  Variables(Tipo("int"), ID("a", ID("b", ID("z"))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "10" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Relacional(">=", ID("b"), Entero( "20" ) )), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z"))))));
+    return  Variables(Tipo('int'), ID('a', ID('b', ID('z'))), Asignacion(ID('a'), Entero( '5' ) , Asignacion(ID('b'), Entero( '10' ) , Si(Conjuncion(Relacional('<=', ID('a'), Entero( '10' ) ), Relacional('>=', ID('b'), Entero( '20' ) )), Asignacion(ID('z'), Entero( '1' ) ), Asignacion(ID('z'), Entero( '0' ) ), Imprime(ID('z'))))));
 
 def arbol8():
-    return  Variables(Tipo("int"), ID("a", ID("b", ID("c", ID("z")))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "21" ) , Asignacion(ID("c"), Entero( "2" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Disyuncion(Relacional(">=", ID("b"), Entero( "20" ) ), Relacional("<", ID("c"), Entero( "10" ) ))), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z")))))));
+    return  Variables(Tipo('int'), ID('a', ID('b', ID('c', ID('z')))), Asignacion(ID('a'), Entero( '5' ) , Asignacion(ID('b'), Entero( '21' ) , Asignacion(ID('c'), Entero( '2' ) , Si(Conjuncion(Relacional('<=', ID('a'), Entero( '10' ) ), Disyuncion(Relacional('>=', ID('b'), Entero( '20' ) ), Relacional('<', ID('c'), Entero( '10' ) ))), Asignacion(ID('z'), Entero( '1' ) ), Asignacion(ID('z'), Entero( '0' ) ), Imprime(ID('z')))))));
 
 def arbol9():
-    return  Variables(Tipo("int"), ID("i"), Para(Asignacion(ID("i"), Entero( "0" ) ), Relacional("<", ID("i"), Entero( "100" ) ), Asignacion(ID("i"), Suma(ID("i"), Entero( "1" ) )), Imprime(ID("i"))));
+    return  Variables(Tipo('int'), ID('i'), Para(Asignacion(ID('i'), Entero( '0' ) ), Relacional('<', ID('i'), Entero( '100' ) ), Asignacion(ID('i'), Suma(ID('i'), Entero( '1' ) )), Imprime(ID('i'))));
 
 def arbol10():
-    return  Variables(Tipo("int"), ID("a", ID("c", ID("i", ID("j", ID("b"))))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "23" ) , Asignacion(ID("c"), Entero( "6" ) , Asignacion(ID("j"), Entero( "7" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Disyuncion(Relacional(">=", ID("b"), Entero( "20" ) ), Relacional("!=", ID("c"), Entero( "30" ) ))), Asignacion(ID("j"), Suma(ID("j"), Entero( "2" ) )), Asignacion(ID("j"), Entero( "0" ) ), Para(Asignacion(ID("i"), ID("j")), Relacional("<", ID("i"), Entero( "10" ) ), Asignacion(ID("i"), Suma(ID("i"), Entero( "1" ) )), Imprime(ID("i")))))))));
+    return  Variables(Tipo('int'), ID('a', ID('c', ID('i', ID('j', ID('b'))))), Asignacion(ID('a'), Entero( '5' ) , Asignacion(ID('b'), Entero( '23' ) , Asignacion(ID('c'), Entero( '6' ) , Asignacion(ID('j'), Entero( '7' ) , Si(Conjuncion(Relacional('<=', ID('a'), Entero( '10' ) ), Disyuncion(Relacional('>=', ID('b'), Entero( '20' ) ), Relacional('!=', ID('c'), Entero( '30' ) ))), Asignacion(ID('j'), Suma(ID('j'), Entero( '2' ) )), Asignacion(ID('j'), Entero( '0' ) ), Para(Asignacion(ID('i'), ID('j')), Relacional('<', ID('i'), Entero( '10' ) ), Asignacion(ID('i'), Suma(ID('i'), Entero( '1' ) )), Imprime(ID('i')))))))));
 
 def arbol0e():
-    return  Variables(Tipo("int"), ID("a"), Variables(Tipo("float"), ID("x"), Asignacion(ID("a"), ID("x"))));
+    return  Variables(Tipo('int'), ID('a'), Variables(Tipo('float'), ID('x'), Asignacion(ID('a'), ID('x'))));
 
 def arbol1e():
-    return  Variables(Tipo("int"), ID("a", ID("b", ID("c"))), Asignacion(ID("a"), Entero( "2" ) , Asignacion(ID("b"), Mult(Entero( "3" ) , ID("a")), Asignacion(ID("c"), Suma(ID("a"), Mult(ID("b"), ID("d"))), Imprime(ID("c"))))));
+    return  Variables(Tipo('int'), ID('a', ID('b', ID('c'))), Asignacion(ID('a'), Entero( '2' ) , Asignacion(ID('b'), Mult(Entero( '3' ) , ID('a')), Asignacion(ID('c'), Suma(ID('a'), Mult(ID('b'), ID('d'))), Imprime(ID('c'))))));
 
 def arbol2e():
-    return  Variables(Tipo("int"), ID("a", ID("b", ID("c"))), Variables(Tipo("float"), ID("d"), Asignacion(ID("a"), Suma(Entero( "2" ) , Mult(Entero( "3" ) , ID("d"))), Imprime(ID("a")))));
+    return  Variables(Tipo('int'), ID('a', ID('b', ID('c'))), Variables(Tipo('float'), ID('d'), Asignacion(ID('a'), Suma(Entero( '2' ) , Mult(Entero( '3' ) , ID('d'))), Imprime(ID('a')))));
 
 def arbol3e():
-    return  Variables(Tipo("int"), ID("a", ID("b", ID("c"))), Asignacion(ID("b"), Entero( "2" ) , Asignacion(ID("c"), Entero( "3" ) , Asignacion(ID("a"), Suma(ID("b"), Mult(ID("c"), Real( "2.5" ) )), Imprime(ID("a"))))));
+    return  Variables(Tipo('int'), ID('a', ID('b', ID('c'))), Asignacion(ID('b'), Entero( '2' ) , Asignacion(ID('c'), Entero( '3' ) , Asignacion(ID('a'), Suma(ID('b'), Mult(ID('c'), Real( '2.5' ) )), Imprime(ID('a'))))));
     
 def arbol7e():
-    return  Variables(Tipo("int"), ID("a", ID("b")), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "10" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Relacional(">=", ID("b"), Entero( "20" ) )), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z"))))));
+    return  Variables(Tipo('int'), ID('a', ID('b')), Asignacion(ID('a'), Entero( '5' ) , Asignacion(ID('b'), Entero( '10' ) , Si(Conjuncion(Relacional('<=', ID('a'), Entero( '10' ) ), Relacional('>=', ID('b'), Entero( '20' ) )), Asignacion(ID('z'), Entero( '1' ) ), Asignacion(ID('z'), Entero( '0' ) ), Imprime(ID('z'))))));
 
 def arbol8e():
-    return  Variables(Tipo("int"), ID("a", ID("b", ID("c"))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "21" ) , Asignacion(ID("c"), Entero( "2" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Disyuncion(Relacional(">=", ID("b"), Entero( "20" ) ), Relacional("<", ID("c"), Entero( "10" ) ))), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z")))))));
+    return  Variables(Tipo('int'), ID('a', ID('b', ID('c'))), Asignacion(ID('a'), Entero( '5' ) , Asignacion(ID('b'), Entero( '21' ) , Asignacion(ID('c'), Entero( '2' ) , Si(Conjuncion(Relacional('<=', ID('a'), Entero( '10' ) ), Disyuncion(Relacional('>=', ID('b'), Entero( '20' ) ), Relacional('<', ID('c'), Entero( '10' ) ))), Asignacion(ID('z'), Entero( '1' ) ), Asignacion(ID('z'), Entero( '0' ) ), Imprime(ID('z')))))));
 
 def arbol10e():
-    return  Variables(Tipo("int"), ID("a", ID("c", ID("i", ID("j")))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "23" ) , Asignacion(ID("c"), Entero( "6" ) , Asignacion(ID("j"), Entero( "7" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Disyuncion(Relacional(">=", ID("b"), Entero( "20" ) ), Relacional("!=", ID("c"), Entero( "30" ) ))), Asignacion(ID("j"), Suma(ID("j"), Entero( "2" ) )), Asignacion(ID("j"), Entero( "0" ) ), Para(Asignacion(ID("i"), ID("j")), Relacional("<", ID("i"), Entero( "10" ) ), Asignacion(ID("i"), Suma(ID("i"), Entero( "1" ) )), Imprime(ID("i")))))))));
+    return  Variables(Tipo('int'), ID('a', ID('c', ID('i', ID('j')))), Asignacion(ID('a'), Entero( '5' ) , Asignacion(ID('b'), Entero( '23' ) , Asignacion(ID('c'), Entero( '6' ) , Asignacion(ID('j'), Entero( '7' ) , Si(Conjuncion(Relacional('<=', ID('a'), Entero( '10' ) ), Disyuncion(Relacional('>=', ID('b'), Entero( '20' ) ), Relacional('!=', ID('c'), Entero( '30' ) ))), Asignacion(ID('j'), Suma(ID('j'), Entero( '2' ) )), Asignacion(ID('j'), Entero( '0' ) ), Para(Asignacion(ID('i'), ID('j')), Relacional('<', ID('i'), Entero( '10' ) ), Asignacion(ID('i'), Suma(ID('i'), Entero( '1' ) )), Imprime(ID('i')))))))));
 
