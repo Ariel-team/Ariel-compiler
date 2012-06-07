@@ -321,16 +321,16 @@ def arbol6():
     return  Variables(Tipo("int"), ID("a", ID("z")), Asignacion(ID("a"), Entero( "5" ) , Si(Relacional(">", ID("a"), Entero( "2" ) ), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z")))));
 
 def arbol7():
-    return  Variables(Tipo("int"), ID("a", ID("b")), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "10" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Relacional(">=", ID("b"), Entero( "20" ) )), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z"))))));
+    return  Variables(Tipo("int"), ID("a", ID("b", ID("z"))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "10" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Relacional(">=", ID("b"), Entero( "20" ) )), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z"))))));
 
 def arbol8():
-    return  Variables(Tipo("int"), ID("a", ID("b", ID("c"))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "21" ) , Asignacion(ID("c"), Entero( "2" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Disyuncion(Relacional(">=", ID("b"), Entero( "20" ) ), Relacional("<", ID("c"), Entero( "10" ) ))), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z")))))));
+    return  Variables(Tipo("int"), ID("a", ID("b", ID("c", ID("z")))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "21" ) , Asignacion(ID("c"), Entero( "2" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Disyuncion(Relacional(">=", ID("b"), Entero( "20" ) ), Relacional("<", ID("c"), Entero( "10" ) ))), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z")))))));
 
 def arbol9():
     return  Variables(Tipo("int"), ID("i"), Para(Asignacion(ID("i"), Entero( "0" ) ), Relacional("<", ID("i"), Entero( "100" ) ), Asignacion(ID("i"), Suma(ID("i"), Entero( "1" ) )), Imprime(ID("i"))));
 
 def arbol10():
-    return  Variables(Tipo("int"), ID("a", ID("c", ID("i", ID("j")))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "23" ) , Asignacion(ID("c"), Entero( "6" ) , Asignacion(ID("j"), Entero( "7" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Disyuncion(Relacional(">=", ID("b"), Entero( "20" ) ), Relacional("!=", ID("c"), Entero( "30" ) ))), Asignacion(ID("j"), Suma(ID("j"), Entero( "2" ) )), Asignacion(ID("j"), Entero( "0" ) ), Para(Asignacion(ID("i"), ID("j")), Relacional("<", ID("i"), Entero( "10" ) ), Asignacion(ID("i"), Suma(ID("i"), Entero( "1" ) )), Imprime(ID("i")))))))));
+    return  Variables(Tipo("int"), ID("a", ID("c", ID("i", ID("j", ID("b"))))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "23" ) , Asignacion(ID("c"), Entero( "6" ) , Asignacion(ID("j"), Entero( "7" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Disyuncion(Relacional(">=", ID("b"), Entero( "20" ) ), Relacional("!=", ID("c"), Entero( "30" ) ))), Asignacion(ID("j"), Suma(ID("j"), Entero( "2" ) )), Asignacion(ID("j"), Entero( "0" ) ), Para(Asignacion(ID("i"), ID("j")), Relacional("<", ID("i"), Entero( "10" ) ), Asignacion(ID("i"), Suma(ID("i"), Entero( "1" ) )), Imprime(ID("i")))))))));
 
 def arbol0e():
     return  Variables(Tipo("int"), ID("a"), Variables(Tipo("float"), ID("x"), Asignacion(ID("a"), ID("x"))));
@@ -343,4 +343,13 @@ def arbol2e():
 
 def arbol3e():
     return  Variables(Tipo("int"), ID("a", ID("b", ID("c"))), Asignacion(ID("b"), Entero( "2" ) , Asignacion(ID("c"), Entero( "3" ) , Asignacion(ID("a"), Suma(ID("b"), Mult(ID("c"), Real( "2.5" ) )), Imprime(ID("a"))))));
+    
+def arbol7e():
+    return  Variables(Tipo("int"), ID("a", ID("b")), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "10" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Relacional(">=", ID("b"), Entero( "20" ) )), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z"))))));
+
+def arbol8e():
+    return  Variables(Tipo("int"), ID("a", ID("b", ID("c"))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "21" ) , Asignacion(ID("c"), Entero( "2" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Disyuncion(Relacional(">=", ID("b"), Entero( "20" ) ), Relacional("<", ID("c"), Entero( "10" ) ))), Asignacion(ID("z"), Entero( "1" ) ), Asignacion(ID("z"), Entero( "0" ) ), Imprime(ID("z")))))));
+
+def arbol10e():
+    return  Variables(Tipo("int"), ID("a", ID("c", ID("i", ID("j")))), Asignacion(ID("a"), Entero( "5" ) , Asignacion(ID("b"), Entero( "23" ) , Asignacion(ID("c"), Entero( "6" ) , Asignacion(ID("j"), Entero( "7" ) , Si(Conjuncion(Relacional("<=", ID("a"), Entero( "10" ) ), Disyuncion(Relacional(">=", ID("b"), Entero( "20" ) ), Relacional("!=", ID("c"), Entero( "30" ) ))), Asignacion(ID("j"), Suma(ID("j"), Entero( "2" ) )), Asignacion(ID("j"), Entero( "0" ) ), Para(Asignacion(ID("i"), ID("j")), Relacional("<", ID("i"), Entero( "10" ) ), Asignacion(ID("i"), Suma(ID("i"), Entero( "1" ) )), Imprime(ID("i")))))))));
 

@@ -1,4 +1,4 @@
-from arbol2 import *
+from arbol import *
 
 class Semantic(object):
     

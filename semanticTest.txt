@@ -7,7 +7,7 @@ Clase Semantic
 Preparamos el entorno
 
     >>> from semantic import Semantic
-    >>> from arbol2 import *
+    >>> from arbol import *
     >>> semantic = Semantic()
 
 Ejecutamos las pruebas
@@ -66,3 +66,18 @@ Ejecutamos las pruebas
     Traceback (most recent call last):
         ...
     TypeError: Incompatibilidad de tipos
+    
+    >>> semantic.analiza(arbol7e())
+    Traceback (most recent call last):
+        ...
+    NameError: Variable no declarada
+    
+    >>> semantic.analiza(arbol8e())
+    Traceback (most recent call last):
+        ...
+    NameError: Variable no declarada
+    
+    >>> semantic.analiza(arbol10e())
+    Traceback (most recent call last):
+        ...
+    NameError: Variable no declarada
